@@ -1,6 +1,6 @@
 package com.dossantos.desafioandroid.data.comic
 
-import com.dossantos.desafioandroid.data.CoroutineTestRule
+import com.dossantos.desafioandroid.CoroutineTestRule
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertNotNull
 import kotlinx.coroutines.runBlocking

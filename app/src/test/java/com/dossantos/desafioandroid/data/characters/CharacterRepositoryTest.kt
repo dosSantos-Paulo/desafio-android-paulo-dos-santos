@@ -1,9 +1,8 @@
 package com.dossantos.desafioandroid.data.characters
 
-import com.dossantos.desafioandroid.data.CoroutineTestRule
+import com.dossantos.desafioandroid.CoroutineTestRule
 import com.dossantos.desafioandroid.data.utils.Constants.DEFAULT_LIMIT
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Test
 
 import org.junit.Assert.*

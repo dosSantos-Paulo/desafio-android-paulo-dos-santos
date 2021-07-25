@@ -1,4 +1,4 @@
-package com.dossantos.desafioandroid.data
+package com.dossantos.desafioandroid
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi

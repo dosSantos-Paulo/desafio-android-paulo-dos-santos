@@ -26,6 +26,8 @@ class CharacterViewModel( private val _repository: CharacterRepository ) : ViewM
         }
     }
 
+    fun getList() = characterList
+
     class Factory (private val repository: CharacterRepository) : ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>) =
             CharacterViewModel(repository) as T
