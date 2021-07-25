@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.liveData
 import com.dossantos.desafioandroid.data.characters.CharacterRepository
+import com.dossantos.desafioandroid.data.utils.HttpInterceptor
 import com.dossantos.desafioandroid.model.character.CharacterModel
 import kotlinx.coroutines.Dispatchers
 
@@ -14,9 +15,12 @@ class CharacterViewModel( private val _repository: CharacterRepository ) : ViewM
 
     fun getCharacter() = liveData(Dispatchers.IO) {
         try {
-            val result = _repository.getCharacter(offset).data.results
-            characterList.addAll(result)
+            val result = _repository.getCharacter(offset)
+            HttpInterceptor.getInstance().setStatusCode(result.code)
+            HttpInterceptor.getInstance().setBody(result.toString())
+            characterList.addAll(result.data.results)
             emit(characterList)
+            HttpInterceptor.getInstance().printLog()
         } catch (ex: Exception) {
             ex.printStackTrace()
         }

@@ -1,9 +1,10 @@
 package com.dossantos.desafioandroid.view
 
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View.GONE
 import android.widget.ProgressBar
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.dossantos.desafioandroid.R
 import com.dossantos.desafioandroid.data.characters.CharacterRepository
@@ -40,12 +41,14 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupObservers(){
         comicViewModel.getAllComics().observe(this) {
-            TODO()
+            progress.visibility = GONE
+            text.text = it[0].title
         }
 
-        characterViewModel.getCharacter().observe(this) {
-            TODO()
-        }
+//        characterViewModel.getCharacter().observe(this) {
+//            progress.visibility = GONE
+//            text.text = it[0].name
+//        }
 
     }
 }

@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.liveData
 import com.dossantos.desafioandroid.data.comic.ComicRepository
+import com.dossantos.desafioandroid.data.utils.HttpInterceptor
 import com.dossantos.desafioandroid.model.comic.ComicModel
 import kotlinx.coroutines.Dispatchers
 
@@ -16,19 +17,31 @@ class ComicViewModel(
 
     fun getAllComics() = liveData(Dispatchers.IO) {
         try{
-            val response = _repository.getAllComics().data.results
-            _comicsList = response
-            emit(response)
+            val response = _repository.getAllComics()
+            HttpInterceptor.getInstance().setStatusCode(response.code)
+            HttpInterceptor.getInstance().setBody(response.data.toString())
+            _comicsList = response.data.results
+            emit(response.data.results)
+            HttpInterceptor.getInstance().printLog()
         } catch (ex: Exception){
-            println("ERRO: ${ex.message}")
+            ex.printStackTrace()
         }
 
     }
 
     fun getComic(id: Int) = liveData(Dispatchers.IO) {
-        val response = _repository.getComic(id).data.results[0]
-        _comic = response
-        emit(response)
+
+        try {
+            val response = _repository.getComic(id)
+            HttpInterceptor.getInstance().setStatusCode(response.code)
+            HttpInterceptor.getInstance().setBody(response.data.toString())
+            _comic = response.data.results[0]
+            emit(response)
+            HttpInterceptor.getInstance().printLog()
+        }catch (ex: java.lang.Exception){
+            ex.printStackTrace()
+        }
+
     }
 
     class Factory (private val repository: ComicRepository): ViewModelProvider.Factory {
