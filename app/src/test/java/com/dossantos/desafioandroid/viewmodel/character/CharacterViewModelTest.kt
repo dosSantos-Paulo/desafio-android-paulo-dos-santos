@@ -51,7 +51,4 @@ class CharacterViewModelTest {
             viewModel.getCharacter().removeObserver(characterObserver)
         }
     }
-
-
-
 }
