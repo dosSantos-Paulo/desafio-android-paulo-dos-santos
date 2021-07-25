@@ -1,14 +1,15 @@
 package com.dossantos.desafioandroid.view
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View.GONE
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.dossantos.desafioandroid.R
 import com.dossantos.desafioandroid.data.characters.CharacterRepository
 import com.dossantos.desafioandroid.data.comic.ComicRepository
+import com.dossantos.desafioandroid.utils.StringUtils
 import com.dossantos.desafioandroid.viewmodel.character.CharacterViewModel
 import com.dossantos.desafioandroid.viewmodel.comic.ComicViewModel
 
@@ -27,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         setupObservers()
     }
 
-    private fun setupViewModel(){
+    private fun setupViewModel() {
         comicViewModel = ViewModelProvider(
             this,
             ComicViewModel.Factory(ComicRepository())
@@ -39,16 +40,17 @@ class MainActivity : AppCompatActivity() {
         ).get(CharacterViewModel::class.java)
     }
 
-    private fun setupObservers(){
-        comicViewModel.getAllComics().observe(this) {
-            progress.visibility = GONE
-            text.text = it[0].title
-        }
-
-//        characterViewModel.getCharacter().observe(this) {
+    private fun setupObservers() {
+//        comicViewModel.getAllComics().observe(this) {
 //            progress.visibility = GONE
-//            text.text = it[0].name
+//            text.text = it[0].title
 //        }
 
+        characterViewModel.getCharacter().observe(this) {
+            comicViewModel.getMostValueComic(it[0].comics.items).observe(this) {
+                progress.visibility = GONE
+            }
+
+        }
     }
 }

@@ -8,7 +8,7 @@ data class ComicModel(
     val issueNumber: Double,
     val description: String,
     val prices: List<ComicPriceModel>,
-    val dates: List<ComicDateModel>,
+    val dates: List<ComicDataModel>,
     val images: List<ImageModel>,
     val thumbnail: ImageModel,
     val pageCount: Int

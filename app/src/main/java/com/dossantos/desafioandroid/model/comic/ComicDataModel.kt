@@ -1,6 +1,6 @@
 package com.dossantos.desafioandroid.model.comic
 
-data class ComicDateModel(
+data class ComicDataModel(
     val type: String,
     val date: String
 )

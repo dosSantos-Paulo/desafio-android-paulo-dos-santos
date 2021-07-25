@@ -12,26 +12,12 @@ import com.dossantos.desafioandroid.model.comic.ComicDataWrapModel
 class ComicRepository {
     private val _client = ComicEndpoint.endpoint
 
-    suspend fun getAllComics(): ComicDataWrapModel {
-        HttpInterceptor.getInstance().setHttp(BASE_URL + GET_COMIC_URL + "?format=comic&" +
-                "formatType=comic&noVariants=true&ts=" + getTimeStamp() + "&hash=" + getHash() +
-                "&apikey=" + MY_PUBLIC_KEY)
-        return _client.getAllComics(
-            "comic",
-            "comic",
-            true,
-            getTimeStamp(),
-            getHash(),
-            MY_PUBLIC_KEY
-        )
-    }
-
-    suspend fun getComic(id: Int): ComicDataWrapModel {
+    suspend fun getComicById(id: Int): ComicDataWrapModel {
         HttpInterceptor.getInstance().setHttp(BASE_URL + GET_COMIC_URL + "/" + id + "?format=comic&" +
                 "formatType=comic&noVariants=true&ts=" + getTimeStamp() + "&hash=" + getHash() +
                 "&apikey=" + MY_PUBLIC_KEY)
 
-        return _client.getComic(
+        return _client.getComicById(
             id,
             "comic",
             "comic",

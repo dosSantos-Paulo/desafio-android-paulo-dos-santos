@@ -8,18 +8,9 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ComicEndpoint {
-    @GET(GET_COMIC_URL)
-    suspend fun getAllComics(
-        @Query("format") format: String?,
-        @Query("formatType") formatType: String?,
-        @Query("noVariants") noVariants: Boolean,
-        @Query("ts") ts: String?,
-        @Query("hash") hash: String?,
-        @Query("apikey") apikey: String?
-    ): ComicDataWrapModel
 
     @GET("$GET_COMIC_URL/{id}")
-    suspend fun getComic(
+    suspend fun getComicById(
         @Path("id") id:Int,
         @Query("format") format: String?,
         @Query("formatType") formatType: String?,
