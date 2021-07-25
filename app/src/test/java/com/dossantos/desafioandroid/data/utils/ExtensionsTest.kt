@@ -10,12 +10,12 @@ import java.util.*
 class ExtensionsTest {
 
     @Test
-    fun `test timeStamp()`(){
+    fun timeStamp(){
         assertEquals((Calendar.getInstance().timeInMillis / 1000).toString(), Extensions.getTimeStamp())
     }
 
     @Test
-    fun `test getHasg()`(){
+    fun getHasg(){
         assertFalse(Extensions.getHash().isNullOrBlank())
     }
 }

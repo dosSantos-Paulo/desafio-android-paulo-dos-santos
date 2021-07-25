@@ -12,16 +12,19 @@ class HttpInterceptor {
     private var statusCode: Int? = null
     private var body: String? = null
 
-    fun setHttp(http: String) {
+    fun setHttp(http: String): HttpInterceptor {
         this.http = http
+        return this
     }
 
-    fun setStatusCode(statusCode: Int) {
+    fun setStatusCode(statusCode: Int): HttpInterceptor {
         this.statusCode = statusCode
+        return this
     }
 
-    fun setBody(body: String) {
+    fun setBody(body: String): HttpInterceptor {
         this.body = body
+        return this
     }
 
     fun printLog() {
