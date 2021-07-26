@@ -6,10 +6,7 @@ import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View.GONE
 import android.view.View.VISIBLE
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -24,10 +21,6 @@ import com.google.android.material.textfield.TextInputLayout
 class HomeActivity : AppCompatActivity() {
 
     private val recyclerView by lazy { findViewById<RecyclerView>(R.id.recyclerView_home) }
-    private val viewManager = GridLayoutManager(this, 2)
-    private var characterList: MutableList<CharacterModel> = mutableListOf()
-    private var homeAdapter = HomeAdapter(characterList)
-    private lateinit var characterViewModel: CharacterViewModel
     private val progress by lazy { findViewById<ProgressBar>(R.id.progress_home) }
     private val textField by lazy { findViewById<TextInputLayout>(R.id.textField_findHero) }
     private val btnFind by lazy { findViewById<Button>(R.id.btn_find) }
@@ -35,6 +28,11 @@ class HomeActivity : AppCompatActivity() {
     private val imageError by lazy { findViewById<ImageView>(R.id.img_error) }
     private val btnNextPage by lazy {findViewById<Button>(R.id.btn_nextPage)}
     private val btnPrevPage by lazy {findViewById<Button>(R.id.btn_previousPage)}
+
+    private val viewManager = GridLayoutManager(this, 2)
+    private var characterList: MutableList<CharacterModel> = mutableListOf()
+    private var homeAdapter = HomeAdapter(characterList)
+    private lateinit var characterViewModel: CharacterViewModel
     private var loading = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,7 +40,7 @@ class HomeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_home)
         setupRecycler()
         setupViewModel()
-        setupObservers()
+        getCharacters()
         setClickListeners()
         onScrollListener()
     }
@@ -104,19 +102,19 @@ class HomeActivity : AppCompatActivity() {
     fun setClickListeners(){
         btnFind.setOnClickListener {
             KeyboardUtils.hideKeyboard(this)
-            continueObserver(textField.editText!!.text.toString(), true)
+            getCharacters(textField.editText!!.text.toString())
         }
 
         textField.editText?.setOnKeyListener { _, keyCode, _ ->
             if (keyCode == KeyEvent.KEYCODE_ENTER){
                 KeyboardUtils.hideKeyboard(this)
-                continueObserver(textField.editText!!.text.toString(), true)
+                getCharacters(textField.editText!!.text.toString())
             }
             false
         }
 
-        btnNextPage.setOnClickListener { continueObserver(null, true) }
-        btnPrevPage.setOnClickListener { continueObserver(null, false) }
+        btnNextPage.setOnClickListener { getNextPage() }
+        btnPrevPage.setOnClickListener { getPreviousPage() }
     }
 
     fun setupViewModel(){
@@ -126,32 +124,53 @@ class HomeActivity : AppCompatActivity() {
         ).get(CharacterViewModel::class.java)
     }
 
-    fun setupObservers(){
+    fun getCharacters(name: String? = null) {
         hidePageButtons()
         hideError()
-        characterViewModel.getCharacter().observe(this) {
+        progress.visibility = VISIBLE
+        characterViewModel.getCharacters(name).observe(this) {
             progress.visibility = GONE
-            if (it.isEmpty()){
+            characterList.clear()
+            if (it.isNullOrEmpty()){
                 showError()
+            }else {
+                characterList.addAll(it)
+                homeAdapter.notifyDataSetChanged()
             }
-            characterList.addAll(it)
-            homeAdapter.notifyDataSetChanged()
         }
     }
 
-    fun continueObserver(name: String?, pagePass : Boolean? = null) {
+    fun getNextPage(){
         hidePageButtons()
+        hideError()
         characterList.clear()
         homeAdapter.notifyDataSetChanged()
         progress.visibility = VISIBLE
-        hideError()
-        characterViewModel.getCharacterByName(name, pagePass).observe(this) {
+        characterViewModel.getNextPage().observe(this) {
             progress.visibility = GONE
-            if (it.isEmpty()){
+            if (it.isNullOrEmpty()){
                 showError()
+            }else {
+                characterList.addAll(it)
+                homeAdapter.notifyDataSetChanged()
             }
-            characterList.addAll(it)
-            homeAdapter.notifyDataSetChanged()
+        }
+    }
+
+    fun getPreviousPage(){
+        hideError()
+        progress.visibility = VISIBLE
+        characterViewModel.getPreviousPage().observe(this) {
+            progress.visibility = GONE
+            if (!it.isNullOrEmpty()){
+                hidePageButtons()
+                characterList.clear()
+                homeAdapter.notifyDataSetChanged()
+                characterList.addAll(it)
+                homeAdapter.notifyDataSetChanged()
+            }else{
+                Toast.makeText(this, getString(R.string.no_previous_message),Toast.LENGTH_LONG).show()
+            }
         }
     }
 

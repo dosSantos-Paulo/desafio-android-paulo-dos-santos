@@ -6,4 +6,5 @@
     <string name="character_not_found">Character Not Found</string>
     <string name="next_page">Next Page</string>
     <string name="previous_page">Prev Page</string>
+    <string name="no_previous_message">There is no previous page</string>
 </resources>
