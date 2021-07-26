@@ -18,6 +18,18 @@ interface CharacterEndpoint {
         @Query("offset") offset: Int
     ): CharacterDataWrapper
 
+    @GET(GET_CHARACTER_URL)
+    suspend fun getCharacterByName(
+        @Query("nameStartsWith") name: String,
+        @Query("ts") ts: String,
+        @Query("hash") hash: String,
+        @Query("apikey") apikey: String,
+        @Query("limit") limit: Int,
+        @Query("offset") offset: Int
+    ): CharacterDataWrapper
+
+
+
     companion object {
         val Endpoint: CharacterEndpoint by lazy {
             NetworkUtils.getRetrofitInstance().create(CharacterEndpoint::class.java)

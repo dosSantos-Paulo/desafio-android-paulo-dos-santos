@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">Desafio Android</string>
     <string name="hq">HQ</string>
+    <string name="hero_name_start_with">Hero Name Start With?</string>
+    <string name="search">Search</string>
+    <string name="character_not_found">Character Not Found</string>
+    <string name="next_page">Next Page</string>
+    <string name="previous_page">Prev Page</string>
 </resources>

@@ -8,6 +8,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.dossantos.desafioandroid.R
+import com.dossantos.desafioandroid.view.home.HomeActivity
 
 class SplashScreenActivity : AppCompatActivity() {
 
@@ -26,8 +27,8 @@ class SplashScreenActivity : AppCompatActivity() {
         setContentView(R.layout.activity_splash_screen)
         initAnimation()
         Handler(Looper.getMainLooper()).postDelayed({
-
-        }, 5000)
+            HomeActivity.getIntent(this)
+        }, 6000)
     }
 
 

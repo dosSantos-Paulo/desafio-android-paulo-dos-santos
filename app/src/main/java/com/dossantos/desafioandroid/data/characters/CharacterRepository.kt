@@ -28,4 +28,19 @@ class CharacterRepository {
         )
     }
 
+    suspend fun getCharacterByName(name:String, offset: Int): CharacterDataWrapper {
+        HttpInterceptor.getInstance().setHttp(BASE_URL + GET_CHARACTER_URL + "?nameStartsWith=" + name
+                + "&ts=" + getTimeStamp() + "&hash=" + getHash() + "&apikey="+ MY_PUBLIC_KEY + "&limit=" +
+                DEFAULT_LIMIT + "&offset=" + offset)
+
+        return _client.getCharacterByName(
+            name,
+            getTimeStamp(),
+            getHash(),
+            MY_PUBLIC_KEY,
+            DEFAULT_LIMIT,
+            offset
+        )
+    }
+
 }
