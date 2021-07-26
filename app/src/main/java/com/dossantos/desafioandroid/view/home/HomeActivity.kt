@@ -61,7 +61,7 @@ class HomeActivity : AppCompatActivity() {
                     if (loading) {
                         if (visibleItemCount + pastVisiblesItems >= totalItemCount) {
                             loading = false
-                            showPageButtons()
+                            getNextPage()
                             loading = true
                         }
                     }
@@ -141,16 +141,10 @@ class HomeActivity : AppCompatActivity() {
     }
 
     fun getNextPage(){
-        hidePageButtons()
-        hideError()
-        characterList.clear()
-        homeAdapter.notifyDataSetChanged()
         progress.visibility = VISIBLE
         characterViewModel.getNextPage().observe(this) {
             progress.visibility = GONE
-            if (it.isNullOrEmpty()){
-                showError()
-            }else {
+            if (it != null){
                 characterList.addAll(it)
                 homeAdapter.notifyDataSetChanged()
             }

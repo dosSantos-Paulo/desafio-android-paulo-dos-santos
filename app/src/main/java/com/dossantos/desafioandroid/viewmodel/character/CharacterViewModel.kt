@@ -23,13 +23,15 @@ class CharacterViewModel(private val _repository: CharacterRepository) : ViewMod
             if (isNewSearch == true){
                 nameOnSearch = ""
             }
+            if (name != null){
+                nameOnSearch = name
+            }
             offset = 0
             page = 1
             val result: CharacterDataWrapper
-            if (name == null && nameOnSearch.trim().isEmpty()) {
+            if (nameOnSearch.trim().isEmpty()) {
                 result = _repository.getCharacter(offset)
             } else {
-                nameOnSearch = name!!
                 result = _repository.getCharacterByName(nameOnSearch, offset)
             }
             HttpInterceptor.getInstance().setStatusCode(result.code)
