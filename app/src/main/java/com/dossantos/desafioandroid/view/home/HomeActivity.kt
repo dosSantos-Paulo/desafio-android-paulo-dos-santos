@@ -102,7 +102,7 @@ class HomeActivity : AppCompatActivity() {
     fun setClickListeners(){
         btnFind.setOnClickListener {
             KeyboardUtils.hideKeyboard(this)
-            getCharacters(textField.editText!!.text.toString())
+            getCharacters(textField.editText!!.text.toString(), true)
         }
 
         textField.editText?.setOnKeyListener { _, keyCode, _ ->
@@ -124,11 +124,11 @@ class HomeActivity : AppCompatActivity() {
         ).get(CharacterViewModel::class.java)
     }
 
-    fun getCharacters(name: String? = null) {
+    fun getCharacters(name: String? = null, isNewSearch: Boolean? = null) {
         hidePageButtons()
         hideError()
         progress.visibility = VISIBLE
-        characterViewModel.getCharacters(name).observe(this) {
+        characterViewModel.getCharacters(name, isNewSearch).observe(this) {
             progress.visibility = GONE
             characterList.clear()
             if (it.isNullOrEmpty()){

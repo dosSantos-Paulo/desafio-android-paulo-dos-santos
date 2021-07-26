@@ -18,8 +18,11 @@ class CharacterViewModel(private val _repository: CharacterRepository) : ViewMod
     private var nameOnSearch = ""
     private var previousList: List<CharacterModel> = listOf()
 
-    fun getCharacters(name: String?) = liveData(Dispatchers.IO) {
+    fun getCharacters(name: String?, isNewSearch: Boolean? = null) = liveData(Dispatchers.IO) {
         try {
+            if (isNewSearch == true){
+                nameOnSearch = ""
+            }
             offset = 0
             page = 1
             val result: CharacterDataWrapper

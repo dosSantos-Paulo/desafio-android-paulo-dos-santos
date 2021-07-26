@@ -28,16 +28,12 @@ class HttpInterceptor {
     }
 
     fun printLog() {
-        if (http != null && statusCode != null && body != null) {
-            Log.i(
-                tag, "\n\n\n\n " +
-                        "================ HTTP INTERCEPTOR ================ \n " +
-                        "Request: $http \n Status Code: $statusCode \n Body: $body\n " +
-                        "=================================================="
-            )
-        } else {
-            throw NullPointerException("HttpInterceptor Error: interceptor does not work with null variable")
-        }
+        Log.i(
+            tag, "\n\n\n\n " +
+                    "================ HTTP INTERCEPTOR ================ \n " +
+                    "Request: $http \n Status Code: $statusCode \n Body: $body\n " +
+                    "=================================================="
+        )
         clear()
     }
 
